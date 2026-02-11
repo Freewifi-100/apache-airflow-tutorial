@@ -5,8 +5,8 @@ build/
 dist/
 wheels/
 *.egg-info
-logs
-config/airflow.cfg
+logs/
+config/
 
 # Virtual environments
 .venv
