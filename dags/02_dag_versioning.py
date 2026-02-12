@@ -17,12 +17,18 @@ def versioned_dag():
     def third_task():
         print("This is the third task")
 
+    @task.python
+    def version_task():
+        print("This is the version task DAD version 2.0!!")
+
+
     #  defining task dependencies
     first = first_task()
     second = second_task()
     third = third_task()
+    version = version_task()
 
-    first >> second >> third
+    first >> second >> third >> version
 
 # Instantiate the DAG
 versioned_dag()
