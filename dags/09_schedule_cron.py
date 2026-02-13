@@ -1,0 +1,35 @@
+from airflow.sdk import dag, task
+from pendulum import datetime
+from airflow.timetables.trigger import CronTriggerTimetable
+
+
+@dag(
+     dag_id="cron_schedule_dag",
+     start_date= datetime(year=2026, month=1, day=26, tz="Asia/Bangkok"),
+     schedule= CronTriggerTimetable("0 16 * * MON-FRI", timezone="Asia/Bangkok"), # This cron expression schedules the DAG to run at 16:00 (4 PM) every weekday (Monday to Friday).
+     end_date= datetime(year=2026, month=1, day=31, tz="Asia/Bangkok"),
+     is_paused_upon_creation=False, # This will make the DAG active immediately after creation, without needing to manually unpause it in the Airflow UI.
+     catchup=True,
+)
+def cron_schedule_dag():
+    @task.python
+    def first_task():
+        print("This is the first task")
+    
+    @task.python
+    def second_task():
+        print("This is the second task")
+
+    @task.python
+    def third_task():
+        print("This is the third task")
+
+    #  defining task dependencies
+    first = first_task()
+    second = second_task()
+    third = third_task()
+
+    first >> second >> third
+
+# Instantiate the DAG
+cron_schedule_dag()
