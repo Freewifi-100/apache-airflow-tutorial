@@ -4,7 +4,6 @@ from airflow.sdk import dag, task
      dag_id="first_dag",
 )
 def first_dag():
-    
     @task.python
     def first_task():
         print("This is the first task")
